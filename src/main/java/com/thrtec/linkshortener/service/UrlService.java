@@ -1,11 +1,10 @@
 package com.thrtec.linkshortener.service;
 
+import com.thrtec.linkshortener.util.EncodeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -13,17 +12,15 @@ public class UrlService {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    public RedirectView redirectByKey(String key) {
+    public RedirectView redirectByKey(String urlEncoded) {
         final var redirectView = new RedirectView();
-        redirectView.setUrl("https://" + redisTemplate.opsForValue().get(key));
+        redirectView.setUrl(redisTemplate.opsForValue().get(urlEncoded));
         return redirectView;
     }
 
-    public String addUrl(String url) {
-        UUID uuid = UUID.randomUUID();
-        String randomKey = uuid.toString();
-        redisTemplate.opsForValue().set(randomKey, url);
-        return "https://link.thrtec.com/" + randomKey;
+    public String addUrl(String urlEncoded) {
+        redisTemplate.opsForValue().set(urlEncoded, EncodeUtil.base64UrlDecode(urlEncoded));
+        return "https://link.thrtec.com/" + urlEncoded;
     }
 
 }

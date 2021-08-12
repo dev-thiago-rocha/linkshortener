@@ -13,13 +13,13 @@ public class UrlController {
 
     private final UrlService urlService;
 
-    @GetMapping("/short/{url}")
-    public String shortUrl(@PathVariable("url") String url){
-        return urlService.addUrl(url);
+    @GetMapping("/short/{urlEncoded}")
+    public String shortUrl(@PathVariable("urlEncoded") String urlEncoded){
+        return urlService.addUrl(urlEncoded);
     }
 
-    @GetMapping("/{key}")
-    public RedirectView redirect(@PathVariable("key") String key){
-        return urlService.redirectByKey(key);
+    @GetMapping("/{urlEncoded}")
+    public RedirectView redirect(@PathVariable("urlEncoded") String urlEncoded){
+        return urlService.redirectByKey(urlEncoded);
     }
 }
