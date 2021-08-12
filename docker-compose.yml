@@ -1,0 +1,27 @@
+version: "3"
+services:
+  linkshortener-api:
+    build: .
+    container_name: linkshortener-api
+    environment:
+      - REDIS_HOST=redis
+    restart: always
+    ports:
+      - "8282:8282"
+    depends_on:
+      - redis-server
+    links:
+      - redis-server
+    networks:
+      - spring-redis-net
+  redis-server:
+    image: redis
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - spring-redis-net
+networks:
+  spring-redis-net:
+    driver: bridge
