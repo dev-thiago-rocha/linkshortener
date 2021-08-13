@@ -14,12 +14,12 @@ public class UrlController {
     private final UrlService urlService;
 
     @GetMapping("/short/{urlEncoded}")
-    public String shortUrl(@PathVariable("urlEncoded") String urlEncoded){
+    public String shortUrl(@PathVariable("urlEncoded") String urlEncoded) {
         return urlService.addUrl(urlEncoded);
     }
 
-    @GetMapping("/{urlEncoded}")
-    public RedirectView redirect(@PathVariable("urlEncoded") String urlEncoded){
-        return urlService.redirectByKey(urlEncoded);
+    @GetMapping("/{key}")
+    public RedirectView redirect(@PathVariable("key") String key) {
+        return urlService.redirectByKey(key);
     }
 }
